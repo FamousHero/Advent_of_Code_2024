@@ -58,7 +58,19 @@ func main() {
 	for count := 0; count < 1000; count++{
 		sum += math.Abs(leftnums[count] - rightnums[count])
 	}
-	fmt.Println(leftnums)
-	fmt.Println(sum)
+	// fmt.Println(leftnums)
+	// fmt.Println(sum)
+
+
+	// ---------------- Part 2 -------------
+	var occurrences = map[float64] int{} 
+	for _, key := range rightnums{
+		occurrences[key] += 1
+	} 
+	var similarity_score int
+	for _, key := range leftnums{
+		similarity_score += int(key) * occurrences[key]
+	}
+	// fmt.Println(similarity_score)
 
 }
