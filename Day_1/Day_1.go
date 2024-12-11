@@ -7,6 +7,7 @@ import (
 	"strings"
 	"math"
 	"strconv"
+	"sort"
 )
 // Read the file, split each line, read the two numbers and 
 // get abs distance & add it to running sum, return sum 
@@ -31,16 +32,16 @@ func main() {
 	for dataScanner.Scan() {
 		data = append(data, dataScanner.Text())
 	} 
-	var sum float64 = 0
+	var sum float64
 	for _, line := range data{
 		fmt.Println("---Line---")
 		nums := strings.Split(line, "   ");
 		
 		num1, _ := strconv.ParseFloat(nums[0], 64);
-		append(leftnums, num1)
+		leftnums = append(leftnums, num1)
 
 		num2, _ := strconv.ParseFloat(nums[1], 64);
-		append(rightnums, num2)
+		rightnums = append(rightnums, num2)
 
 		diff := math.Abs(num1 - num2);
 		sum += diff
@@ -50,6 +51,14 @@ func main() {
 		fmt.Println("Current Sum: " + strconv.FormatFloat(sum, 'f', -1, 64))
 		fmt.Println("----------")
 	}
-	fmt.Println(len(data))
+	sort.Float64s(leftnums)
+	sort.Float64s(rightnums)
+	
+	sum = 0
+	for count := 0; count < 1000; count++{
+		sum += math.Abs(leftnums[count] - rightnums[count])
+	}
+	fmt.Println(leftnums)
+	fmt.Println(sum)
 
 }
