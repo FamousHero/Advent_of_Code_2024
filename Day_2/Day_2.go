@@ -5,28 +5,42 @@ import (
 	"fmt"
 	"bufio"
 	"strings"
-	// "strconv"
+	"strconv"
+	"math"
 
 )
 
 func Day2(scanner *bufio.Scanner) {
+	safe_count := 0
 	for scanner.Scan(){
-		words := strings.Split(scanner.Text(), " ")
-		for i, word := range words{
-			var pyramid string;
-			// String concatenation should be done with strings.Builder or strings.Join
-			for ;i > -1; i--{
-				pyramid = pyramid + "-"
+		numbers := strings.Split(scanner.Text(), " ")
+		number_len := len(numbers)
+		decreasing_order := false
+		prev, _ := strconv.ParseInt(numbers[0], 10, 64)
+		for i:= 1; i < number_len; i++{
+			x, _ := strconv.ParseInt(numbers[i], 10, 64)
+			
+			diff := x - prev
+			prev = x
+			
+			if i == 1 && diff < 0{ // decreasing order
+				decreasing_order = true
 			}
-			pyramid = pyramid + " "
-			fmt.Println(pyramid + word)
+			// Check conditions for safe
+			if diff == 0 || (diff < 0 && !decreasing_order) ||
+			(diff > 0 && decreasing_order) || math.Abs(float64(diff)) > 3{
+				break
+			}
+			if i == number_len-1{
+				safe_count += 1
+			}
 		}
-		fmt.Println(words)
 	}
+	fmt.Println(safe_count)
 }
 
 func main(){
-	file, err := os.Open("test.txt")
+	file, err := os.Open("Day_2_input.txt")
 	if err != nil{
 		panic(err)
 	}
